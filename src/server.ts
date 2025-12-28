@@ -1,23 +1,23 @@
+import './infra/observability/tracing';
 import { AppDataSource } from './infra/db/data-source'
 import { app } from './app'
 
 async function bootstrap() {
   try {
     await AppDataSource.initialize()
-    console.log('📦 Database connected')
+    console.log('Database conectado')
 
-       await app.ready() 
+    await app.ready()
 
-    console.log(app.printRoutes()) 
+    console.log(app.printRoutes())
 
-    await app.listen({
-      port: 3333,
-      host: '0.0.0.0'
-    })
+    app.listen({ port: 3333 }, () => {
+      app.log.info('Servidor rodando na porta 3333');
+    });
 
-    console.log('🚀 Server running on http://localhost:3333')
+    console.log('Servidor rodando em http://localhost:3333')
   } catch (err) {
-    console.error('❌ Error starting server:', err)
+    console.error('Erro ao iniciar servidor:', err)
     process.exit(1)
   }
 }
