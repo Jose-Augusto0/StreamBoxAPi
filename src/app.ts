@@ -16,5 +16,5 @@ export const app = Fastify({
 
 app.register(authRoutes, { prefix: '/auth' })
 
-app.register(playbackRoutes, { prefix: '/playback' })
+app.register(playbackRoutes)
 

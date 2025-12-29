@@ -1,0 +1,15 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug StreamBox API",
+      "program": "${workspaceFolder}/src/server.ts",  // seu arquivo principal
+      "runtimeArgs": ["-r", "ts-node/register"],
+      "cwd": "${workspaceFolder}",
+      "protocol": "inspector",
+      "sourceMaps": true
+    }
+  ]
+}
