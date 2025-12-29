@@ -1,9 +1,9 @@
-import 'reflect-metadata'
 import { DataSource } from 'typeorm'
 import { User } from '../../modules/user/user.entity'
 import { Content } from '../../modules/content/content.entity'
 import { Playback } from '../../modules/playback/playback.entity'
 import 'dotenv/config'
+import 'reflect-metadata'
 
 
 export const AppDataSource = new DataSource({
@@ -15,5 +15,5 @@ export const AppDataSource = new DataSource({
   database: process.env.DB_NAME,
   synchronize: true,
   logging: false,
-  entities: [User, Content, Playback],
+  entities: [__dirname + '/../../modules/**/**/*.entity.{js,ts}']
 })
