@@ -1,4 +1,5 @@
 import fastify from 'fastify'
+import 'dotenv/config'
 import awsLambdaFastify from '@fastify/aws-lambda'
 import authRoutes from './modules/auth/auth.routes'
 import { playbackRoutes } from './modules/playback/playback.routes'
