@@ -4,7 +4,8 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
-  ManyToOne
+  ManyToOne,
+  JoinColumn
 } from 'typeorm'
 import { Content } from '../content/content.entity'
 import { User } from '../user/user.entity'
@@ -12,13 +13,15 @@ import { User } from '../user/user.entity'
 
 @Entity('playbacks')
 export class Playback {
-  @PrimaryGeneratedColumn('uuid')
-  id!: string
+  @PrimaryGeneratedColumn()
+  id!: number
 
-  @ManyToOne(() => User)
+  @ManyToOne(() => User, { nullable: false })
+  @JoinColumn({ name: 'userId' })
   user!: User
 
-  @ManyToOne(() => Content)
+  @ManyToOne(() => Content, { nullable: false })
+  @JoinColumn({ name: 'contentId' })
   content!: Content
 
   @Column({ default: 0 })

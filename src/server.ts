@@ -1,6 +1,6 @@
-import './infra/observability/tracing';
 import { AppDataSource } from './infra/db/data-source'
 import { app } from './app'
+
 
 async function bootstrap() {
   try {
@@ -8,8 +8,6 @@ async function bootstrap() {
     console.log('Database conectado')
 
     await app.ready()
-
-    console.log(app.printRoutes())
 
     app.listen({ port: 3333 }, () => {
       app.log.info('Servidor rodando na porta 3333');
