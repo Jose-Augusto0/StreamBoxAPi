@@ -1,13 +1,8 @@
 import { AppDataSource } from '../../infra/db/data-source'
-import { producer } from '../../kafka'
 import { Playback } from './playback.entity'
 import { User } from '../user/user.entity'
 import { Content } from '../content/content.entity'
 import { trace } from '@opentelemetry/api'
-import {
-  playbackStartedCounter,
-  playbackStatusCounter,
-} from '../../infra/observability/metrics'
 
 export class PlaybackService {
   private playbackRepo = AppDataSource.getRepository(Playback)
@@ -32,25 +27,8 @@ export class PlaybackService {
 
         const savedPlayback = await this.playbackRepo.save(playback)
 
-        await producer.send({
-          topic: 'playback-events',
-          messages: [
-            {
-              key: savedPlayback.id.toString(),
-              value: JSON.stringify({
-                userId,
-                contentId,
-                event: 'play',
-                progress: 0,
-                timestamp: new Date().toISOString(),
-              }),
-            },
-          ],
-        })
-
         span.setStatus({ code: 1 })
 
-        playbackStartedCounter.add(1, { userId: userId.toString(), contentId: contentId.toString() })
 
         return savedPlayback
       } catch (err: any) {
@@ -77,25 +55,9 @@ export class PlaybackService {
         playback.progress = progress
         playback.status = status
 
-        await producer.send({
-          topic: 'playback-events',
-          messages: [
-            {
-              key: playback.id.toString(),
-              value: JSON.stringify({
-                event: status,
-                progress,
-                timestamp: new Date().toISOString(),
-              }),
-            },
-          ],
-        })
-
         const savedPlayback = await this.playbackRepo.save(playback)
 
         span.setStatus({ code: 1 })
-
-        playbackStatusCounter.add(1, { playbackId: playback.id.toString(), status })
 
         return savedPlayback
       } catch (err: any) {

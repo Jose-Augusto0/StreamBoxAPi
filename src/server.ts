@@ -1,9 +1,6 @@
-import './infra/observability/otel'
-import './infra/observability/metrics' 
-// import './infra/observability/tracing';
 import { AppDataSource } from './infra/db/data-source'
 import { app } from './app'
-import { connectProducer } from './kafka' 
+
 
 async function bootstrap() {
   try {
@@ -11,8 +8,6 @@ async function bootstrap() {
     console.log('Database conectado')
 
     await app.ready()
-
-    await connectProducer()
 
     app.listen({ port: 3333 }, () => {
       app.log.info('Servidor rodando na porta 3333');
