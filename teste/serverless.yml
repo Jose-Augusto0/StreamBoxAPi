@@ -1,0 +1,18 @@
+service: streambox-api
+
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: us-east-1
+  stage: prod
+  tracing:
+    lambda: true
+    apiGateway: true
+
+functions:
+  api:
+    handler: src/handler.handler
+    events:
+      - httpApi: '*'
